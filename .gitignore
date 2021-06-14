@@ -1,0 +1,9 @@
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+terraform.tfstate
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
