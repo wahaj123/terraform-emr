@@ -40,9 +40,16 @@ emr = {
     name     = "name-env"
   }
 
-  bootstrap_action = {
-    path = "s3://emr-testing-123/script.sh"
-    name = "runif"
-    args = ["instance.isMaster=true", "echo running on master node"]
-  }
+  bootstrap_action = [
+    {
+      path = "s3://emr-testing-123/script.sh"
+      name = "runif"
+      args = ["instance.isMaster=true", "echo running on master node"]
+    },
+    {
+      path = "s3://emr-testing-1234/script2.sh"
+      name = "runif"
+      args = ["instance.isMaster=true", "echo running on master node"]
+    },
+  ]
 }

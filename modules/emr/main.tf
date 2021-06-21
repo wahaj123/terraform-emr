@@ -26,12 +26,31 @@ resource "aws_emr_cluster" "cluster" {
     env      = var.tags.env
     name     = var.tags.name
   }
-
-  bootstrap_action {
-    path = var.bootstrap_action.path
-    name = var.bootstrap_action.name
-    args = var.bootstrap_action.args
+  dynamic "bootstrap_action" {
+    for_each = var.bootstrap_action
+    content {
+      path = bootstrap_action.value.path
+      name = bootstrap_action.value.name
+      args = bootstrap_action.value.args
+    }
   }
+  # bootstrap_action = [
+  #   {
+  #     path = "s3://emr-testing-123/script.sh"
+  #     name = "runif"
+  #     # args = ["instance.isMaster=true", "echo running on master node"]
+  #   },
+  #   {
+  #     path = "s3://emr-testing-1234/script2.sh"
+  #     name = "run"
+  #     # args = ["instance.isMaster=true", "echo running on master node"]
+  #   },
+  # ]
+  # bootstrap_action {
+  #   path = var.bootstrap_action.path
+  #   name = var.bootstrap_action.name
+  #   args = var.bootstrap_action.args
+  # }
 
   configurations_json = <<EOF
   [

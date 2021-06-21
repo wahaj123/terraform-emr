@@ -57,3 +57,30 @@ module "emr" {
   subnet_id             = module.vpc.output.public_subnet[0]
   key_name              = var.emr.key_name
 }
+# data "aws_ec2_instance_type_offerings" "example" {
+#   filter {
+#     name   = "instance-type"
+#     values = ["t2.micro"]
+#   }
+
+#   filter {
+#     name   = "Name"
+#     values = ["Terraform_vault"]
+#   }
+
+#   location_type = "us-east-2a"
+# }
+
+# data "aws_instance" "foo" {
+#   instance_id = "i-09bd89bcfea573cd6"
+
+#   # filter {
+#   #   name   = "image-id"
+#   #   values = ["ami-xxxxxxxx"]
+#   # }
+
+#   filter {
+#     name   = "tag:Name"
+#     values = ["Terraform_vault"]
+#   }
+# }
