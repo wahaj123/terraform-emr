@@ -41,6 +41,29 @@ module "security_group" {
     },
   ]
 }
+module "service_access_security_group" {
+  source = "./modules/securitygroups"
+  vpc    = module.vpc.output
+  tag    = "service-access-emr-sg"
+  ingress_rule_list = [
+    {
+      source_security_group_id = null
+      cidr_blocks              = [module.vpc.output.cidr_block]
+      description              = "All Web Traffic (22)"
+      from_port                = 22
+      protocol                 = "tcp"
+      to_port                  = 22
+    },
+    {
+      source_security_group_id = null
+      cidr_blocks              = [module.vpc.output.cidr_block]
+      description              = "All Web Traffic ()"
+      from_port                = 0
+      protocol                 = "-1"
+      to_port                  = 0
+    },
+  ]
+}
 module "emr" {
   source                = "./modules/emr"
   name                  = var.emr.name
@@ -54,33 +77,7 @@ module "emr" {
   service_role          = module.iam.iam_emr_service_role.arn
   slave_security_group  = module.security_group.output.sg.id
   master_security_group = module.security_group.output.sg.id
-  subnet_id             = module.vpc.output.public_subnet[0]
+  service_access_sg     = module.service_access_security_group.output.sg.id
+  subnet_id             = module.vpc.output.private_subnet[0]
   key_name              = var.emr.key_name
 }
-# data "aws_ec2_instance_type_offerings" "example" {
-#   filter {
-#     name   = "instance-type"
-#     values = ["t2.micro"]
-#   }
-
-#   filter {
-#     name   = "Name"
-#     values = ["Terraform_vault"]
-#   }
-
-#   location_type = "us-east-2a"
-# }
-
-# data "aws_instance" "foo" {
-#   instance_id = "i-09bd89bcfea573cd6"
-
-#   # filter {
-#   #   name   = "image-id"
-#   #   values = ["ami-xxxxxxxx"]
-#   # }
-
-#   filter {
-#     name   = "tag:Name"
-#     values = ["Terraform_vault"]
-#   }
-# }

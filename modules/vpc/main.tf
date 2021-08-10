@@ -13,7 +13,8 @@ resource "aws_subnet" "public_subnet" {
   cidr_block        = element(var.public_subnet, count.index)
   availability_zone = element(var.availability_zone, count.index)
   tags = {
-    Name = "PublicSubnet-${count.index + 1}-${terraform.workspace}"
+    Name = "public-${count.index + 1}-${terraform.workspace}"
+    type = "public"
   }
 }
 
@@ -24,7 +25,8 @@ resource "aws_subnet" "private_subnet" {
   cidr_block        = element(var.private_subnet, count.index)
   availability_zone = element(var.availability_zone, count.index)
   tags = {
-    Name = "PrivateSubnet-${count.index + 1}-${terraform.workspace}"
+    Name = "private-${count.index + 1}-${terraform.workspace}"
+    type = "private"
   }
 }
 

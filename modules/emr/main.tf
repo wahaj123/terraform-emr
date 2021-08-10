@@ -9,6 +9,7 @@ resource "aws_emr_cluster" "cluster" {
     emr_managed_slave_security_group  = var.slave_security_group
     instance_profile                  = var.instance_profile
     key_name                          = var.key_name
+    service_access_security_group     = var.service_access_sg
   }
 
   master_instance_group {

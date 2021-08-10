@@ -51,3 +51,7 @@ variable key_name {
   default     = ""
   description = "key pair for emr master node"
 }
+variable service_access_sg {
+  default     = ""
+  description = "security group needed for private subnet"
+}
